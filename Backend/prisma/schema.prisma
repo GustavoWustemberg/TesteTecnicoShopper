@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  customerId String   @id @default(cuid()) // ID do cliente como string, gerado automaticamente
+  userName       String @unique // Nome do usuário
+  rides      Ride[]   // Relacionamento com as viagens realizadas pelo usuário
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Driver {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  vehicle     String
+  rating      Float     // Avaliação média do motorista
+  comment     String  // Comentário do cliente sobre a viagem
+  ratePerKm   Float     // Taxa cobrada por km
+  minKm       Float     // Distância mínima aceita pelo motorista em km
+  rides       Ride[]    // Relacionamento com as viagens realizadas pelo motorista
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Ride {
+  id          Int       @id @default(autoincrement())
+  customerId  String    // Relaciona a viagem ao cliente
+  user        User      @relation(fields: [customerId], references: [customerId])
+  driverId    Int
+  driver      Driver    @relation(fields: [driverId], references: [id])
+  origin      String    // Endereço de origem
+  destination String    // Endereço de destino
+  distance    Float     // Distância em km
+  duration    String    // Duração do percurso
+  value       Float     // Valor total da corrida
+  createdAt   DateTime  @default(now())
+}

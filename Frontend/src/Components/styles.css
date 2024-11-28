@@ -1,0 +1,20 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+}
+
+.form :is(label) {
+    font-size: 18px;
+    margin-bottom: 8px;
+}	
+
+.form :is(input) {
+    margin: 8px 0 16px 0;
+}
+
+.map {
+    border-radius: 5px;
+}
