@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./Frontend
+    container_name: nextjs-frontend
+    ports:
+      - "80:80"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8080
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: always
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: node-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgresql://neondb_owner:WE9vVeDxa5IM@ep-muddy-cell-a5lteefb.us-east-2.aws.neon.tech/neondb?sslmode=require
+    volumes:
+      - ./Backend/prisma:/app/prisma
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
