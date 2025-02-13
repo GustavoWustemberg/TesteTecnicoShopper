@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DATABASE_URL=postgresql://neondb_owner:WE9vVeDxa5IM@ep-muddy-cell-a5lteefb.us-east-2.aws.neon.tech/neondb?sslmode=require
+      - DATABASE_URL=your-url
     volumes:
       - ./Backend/prisma:/app/prisma
     networks:
